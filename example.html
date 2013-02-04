@@ -45,16 +45,16 @@
     	</script>
         <script src="jquery.dform-generate.js" type="text/javascript"></script>  
 
-         <form name="form">
+         <form id="form">
             First name: <input type="text" name="firstname"><br>
-            <div name="thediv">
+            <div id="thediv">
                 <p name="child">Child 1</p>
                 <p name="child2">child 2</p>
             </div>
             Last name: <input type="text" name="lastname"><br />
         </form>
         <script type="text/javascript">
-            $("form").dFormGenerate();
+            $("#form").dFormGenerate();
         </script>
     <body>
 </html>
