@@ -7,10 +7,20 @@
         var outobj = {}; // An object to store the data we extract. JSON stringify later.
 
         // We should not proceed if we're not handed a Form object.
-        if(form.prop("tagName").toLowerCase() != "form"){ // I screwed around with .attr() for ages.
+        if (form.prop("tagName").toLowerCase() != "form"){ // I screwed around with .attr() for ages.
             console.log("Not a form!");
             return null; // Does returning null make sense? I'll find out.
         }
+
+        // Get data about the form itself.
+        // id, action, method...
+        if(form.attr("id") != null){
+            outobj.id = form.attr("id");
+        } else if (form.attr("action") != null){
+            outobj.action = form.attr("action");
+        } else if (form.attr("method") != null){
+            outobj.method = form.attr("method");
+        } else {}
 
         // For each child push piece of JSON into the output.
         form.children().each(function() {
@@ -18,12 +28,16 @@
 
             var type = this.tagName.toLowerCase();
             switch(type){
-                case "text":
-                    console.log("type: text");
+                case "label":
+                    console.log("type: label");
                     break;
 
-                case "input":
-                    console.log("type: text");
+                case "p":
+                    console.log("type: p");
+                    break;
+
+                case "input": // Note: we output "text", though "input" works and is equally valid?
+                    console.log("type: input");
                     break;
 
                 case "br":
@@ -37,7 +51,10 @@
                     console.log("Unknown element type: " + type);
             }
 
+            echo("This is echoing!");
+
         }); // End foreach
+        
     }; // End function   
 })( jQuery );
 
