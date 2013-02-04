@@ -14,22 +14,55 @@
 
         // Get data about the form itself.
         // id, action, method...
-        if(form.attr("id") != null){
+        if (form.attr("id") != null)
             outobj.id = form.attr("id");
-        } else if (form.attr("action") != null){
+
+        if (form.attr("action") != null)
             outobj.action = form.attr("action");
-        } else if (form.attr("method") != null){
+
+        if (form.attr("method") != null)
             outobj.method = form.attr("method");
-        } else {}
 
-        // For each child push piece of JSON into the output.
-        form.children().each(function() {
-            console.log(this);
+        // Let's assume the form actually has elements...
+        outobj.html = [];
 
-            var type = this.tagName.toLowerCase();
+
+        // For all the children of the form we need to make an object with attributes and content.
+        // Children may be nested.
+        getChildNodes(node){
+            result = [];
+            node.children().each(function(){
+                    section = {};
+                    // Get attributes for section. These are k:v pairs which are pushed onto the section.
+                    storeAttributes(node, section);
+                    // Get content (which may contain child nodes) which is stored in the html attribute of the section.
+                    html = getContent(node);
+                    if (html != null){
+                        section.html = html;
+                    }
+                    result.push(section);
+                }
+            );
+            return result;
+        }
+
+        function getContent(node){
+            // Return the contents for a node... This may be a string or an object (for children) or null.
+            if (node.children().length == 0){
+                return node.innherHTML();
+            } else {
+                return {getChildNodes(node)};
+            }
+
+        }
+
+        function storeAttributes(node, storage){
+            // Store attributes of a node in the storage object.
+            var type = node.tagName.toLowerCase();
             switch(type){
                 case "label":
                     console.log("type: label");
+                    // Return the properties for this node.
                     break;
 
                 case "p":
@@ -47,16 +80,14 @@
                 case "div":
                     console.log("type: div");
                     break;
+
                 default:
                     console.log("Unknown element type: " + type);
             }
-
-            echo("This is echoing!");
-
-        }); // End foreach
+        } // End storeAttributes
         
-    }; // End function   
+    }; // End function object
 })( jQuery );
 
-// This is thanks to Taryn, who set me on my feet, gave me my motivation back and who still leaves me in awe every
-// day. -- Daniel Devine
+// This is thanks to Taryn, who set me on my feet, gave me my motivation back and who still leaves
+// me in awe every day. -- Daniel Devine
