@@ -1,0 +1,48 @@
+<html>
+    <head></head>
+    <body>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> 
+    	<script type="text/javascript">
+        jQuery.extend({
+            stringify  : function stringify(obj) {         
+                if ("JSON" in window) {
+                    return JSON.stringify(obj);
+                }
+
+                var t = typeof (obj);
+                if (t != "object" || obj === null) {
+                    // simple data type
+                     if (t == "string") obj = '"' + obj + '"';
+                        return String(obj);
+                } else {
+                    // recurse array or object
+                    var n, v, json = [], arr = (obj && obj.constructor == Array);
+
+                    for (n in obj) {
+                        v = obj[n];
+                        t = typeof(v);
+                        if (obj.hasOwnProperty(n)) {
+                            if (t == "string") {
+                                v = '"' + v + '"';
+                            } else if (t == "object" && v !== null){
+                                v = jQuery.stringify(v);
+                            }
+                            json.push((arr ? "" : '"' + n + '":') + String(v));
+                        }
+                    }
+                    return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+                   }
+                }
+            });
+
+
+    		var myJSONObject = {
+    			"bindings": [{"ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*"},],
+    			"test" : "test data",
+			};
+
+	       //console.log($.stringify(myJSONObject));
+    	</script>
+        <script src="jquery.dform-generate.js"></script>  
+    <body>
+</html>
