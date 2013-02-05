@@ -12,24 +12,27 @@
             return null; // Does returning null make sense? I'll find out.
         }
 
-        var formobj = {}
-        storeAttributes(form, formobj);
-        formobj.html = getChildNodes(form);
+        var formobj = {};
+        storeAttributes(form[0], formobj);
+        //formobj.html = getChildNodes(form);
+        formobj.html = getContent(form[0]);
 
-        return JSON.stringify(formobj); //Just use JSON.stringify until things are working well.
+        console.log(formobj);
+        return JSON.stringify(formobj); //Just use JSON.stringify until things are working well. 
+        // Crockford json2.js prototypes over JSON.stringify!
 
         function getChildNodes(node){
             // A node may multiple children, so we will return an array of child nodes.
             // Else we return a single child node.
-            children = node.children();
+            children = $(node).children();
             if  (children.length > 0){
                 result = [];
                 children.each(function(){
                         obj = {};
                         // Get attributes for section. These are k:v pairs which are pushed onto the section.
-                        storeAttributes(node, obj);
+                        storeAttributes(this, obj);
                         // Get content (which may contain child nodes) which is stored in the html attribute of the section.
-                        html = getContent(node);
+                        html = getContent(this);
                         if (html != null){ // There is not always a html attribute.
                             obj.html = html;
                         }
@@ -51,9 +54,10 @@
 
         function getContent(node){
             // Return the contents for a node... This may be a string or 1 or many children.
-            children = node.children();
+            console.log(node);
+            children = $(node).children();
             if (children.length == 0){
-                return node.innerHTML();
+                return node.innerHTML;
             } else {
                 return getChildNodes(node);
             }
@@ -61,31 +65,39 @@
 
         function storeAttributes(node, storage){
             // Store attributes of a node in the storage object.
-            var type = node.tagName.toLowerCase();
-            switch(type){
+            var tag = $(node).prop("tagName").toLowerCase();
+            console.log("tag:" + tag);
+            var type = node.type;
+            console.log("type: " + type);
+
+            // All elements have a tagName, but not all have a type.
+            switch(tag){
                 case "label":
-                    console.log("type: label");
+                    console.log("tag: label");
                     // Return the properties for this node.
                     break;
 
                 case "p":
-                    console.log("type: p");
+                    console.log("tag: p");
                     break;
 
-                case "input": // Note: we output "text", though "input" works and is equally valid?
-                    console.log("type: input");
+                case "input": // Note: we output "text" (a type attribute of HTMLInputElement), though "input" works and is equally valid?
+                    console.log("tag: input");
                     break;
 
                 case "br":
-                    console.log("type: br");
+                    console.log("tag: br");
                     break;
 
                 case "div":
-                    console.log("type: div");
+                    console.log("tag: div");
                     break;
 
+                case "form":
+                    console.log("tag: form");
+                    break;
                 default:
-                    console.log("Unknown element type: " + type);
+                    console.log("Unknown element tag: " + tag);
             }
         } // End storeAttributes
         
