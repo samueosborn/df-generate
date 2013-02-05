@@ -39,12 +39,14 @@
             });
 
 
-    		var myJSONObject = {
-    			"bindings": [{"ircEvent": "PRIVMSG", "method": "newURI", "regex": "^http://.*"},],
-    			"test" : "test data",
-			};
+    		var myJSONObject = {};
+            myJSONObject.a = "first";
+            myJSONObject.b = "second";
+            myJSONObject.c = ["third", "fourth"];
+            myJSONObject.c.push("fifth");
+            myJSONObject.d = {e:["sixth", "seventh"], f: "eighth"};
 
-	       //console.log($.stringify(myJSONObject));
+	        //console.log($.stringify(myJSONObject));
     	</script>
         <script src="jquery.dform-generate.js" type="text/javascript"></script>  
         <form id="form" name="theform">

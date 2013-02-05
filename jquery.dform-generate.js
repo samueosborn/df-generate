@@ -5,6 +5,7 @@
         // or if your designer crafts forms in some IDE (terrible!) which you have to translate.
 
         var form = this; // As documentation says, no need to wrap: $(this).
+        var nodeseen = []; // Keep track of the nodes we have already processed.
 
         // We should not proceed if we're not handed a Form object.
         if (form.prop("tagName").toLowerCase() != "form"){ // I screwed around with .attr() for ages.
@@ -14,7 +15,6 @@
 
         var formobj = {};
         storeAttributes(form[0], formobj);
-        //formobj.html = getChildNodes(form);
         formobj.html = getContent(form[0]);
 
         console.log(formobj);
@@ -24,21 +24,29 @@
         function getChildNodes(node){
             // A node may multiple children, so we will return an array of child nodes.
             // Else we return a single child node.
-            children = $(node).children();
+            children = $([]);
+            $(node).children().each(function(){
+                if (nodeseen.indexOf(this) == -1){
+                    children.push(this);
+                }
+            });
+
+            console.log("nodeseen:");
+            console.log(nodeseen);
+
             if  (children.length > 0){
                 result = [];
                 children.each(function(){
-                        obj = {};
-                        // Get attributes for section. These are k:v pairs which are pushed onto the section.
-                        storeAttributes(this, obj);
-                        // Get content (which may contain child nodes) which is stored in the html attribute of the section.
-                        html = getContent(this);
-                        if (html != null){ // There is not always a html attribute.
-                            obj.html = html;
-                        }
-                        result.push(obj);
+                    obj = {};
+                    // Get attributes for section. These are k:v pairs which are pushed onto the section.
+                    storeAttributes(this, obj);
+                    // Get content (which may contain child nodes) which is stored in the html attribute of the section.
+                    html = getContent(this);
+                    if (html != null){ // There is not always a html attribute.
+                        obj.html = html;
                     }
-                );
+                    result.push(obj);
+                });
                 return result;
             } else {
                 // We just return this node.
@@ -65,6 +73,9 @@
 
         function storeAttributes(node, storage){
             // Store attributes of a node in the storage object.
+
+            nodeseen.push(node);
+
             var tag = $(node).prop("tagName").toLowerCase();
             console.log("tag:" + tag);
             var type = node.type;
@@ -95,6 +106,7 @@
 
                 case "form":
                     console.log("tag: form");
+                    return {"id": node.id, "name": node.name,};
                     break;
                 default:
                     console.log("Unknown element tag: " + tag);
