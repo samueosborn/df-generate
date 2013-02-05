@@ -1,10 +1,10 @@
 (function ( $ ){
     $.fn.dFormGenerate = function(){
-        // This function takes a HTML form and generates JSON compatible with jQuery.dForm.
-        // This is useful if you pair it with an automatic form builder tool - or if your designer 
-        // crafts forms in some IDE (terrible!) which you have to translate.
+        // This function takes a HTML Form object and generates JSON compatible with the
+        // jQuery.dForm plugin. This plugin is useful paired with an automatic form builder tool
+        // or if your designer crafts forms in some IDE (terrible!) which you have to translate.
+
         var form = this; // As documentation says, no need to wrap: $(this).
-        var outobj = {}; // An object to store the data we extract. JSON stringify later.
 
         // We should not proceed if we're not handed a Form object.
         if (form.prop("tagName").toLowerCase() != "form"){ // I screwed around with .attr() for ages.
@@ -12,48 +12,51 @@
             return null; // Does returning null make sense? I'll find out.
         }
 
-        // Get data about the form itself.
-        // id, action, method...
-        if (form.attr("id") != null)
-            outobj.id = form.attr("id");
+        var formobj = {}
+        storeAttributes(form, formobj);
+        formobj.html = getChildNodes(form);
 
-        if (form.attr("action") != null)
-            outobj.action = form.attr("action");
+        return JSON.stringify(formobj); //Just use JSON.stringify until things are working well.
 
-        if (form.attr("method") != null)
-            outobj.method = form.attr("method");
-
-        // Let's assume the form actually has elements...
-        outobj.html = [];
-
-
-        // For all the children of the form we need to make an object with attributes and content.
-        // Children may be nested.
-        getChildNodes(node){
-            result = [];
-            node.children().each(function(){
-                    section = {};
-                    // Get attributes for section. These are k:v pairs which are pushed onto the section.
-                    storeAttributes(node, section);
-                    // Get content (which may contain child nodes) which is stored in the html attribute of the section.
-                    html = getContent(node);
-                    if (html != null){
-                        section.html = html;
+        function getChildNodes(node){
+            // A node may multiple children, so we will return an array of child nodes.
+            // Else we return a single child node.
+            children = node.children();
+            if  (children.length > 0){
+                result = [];
+                children.each(function(){
+                        obj = {};
+                        // Get attributes for section. These are k:v pairs which are pushed onto the section.
+                        storeAttributes(node, obj);
+                        // Get content (which may contain child nodes) which is stored in the html attribute of the section.
+                        html = getContent(node);
+                        if (html != null){ // There is not always a html attribute.
+                            obj.html = html;
+                        }
+                        result.push(obj);
                     }
-                    result.push(section);
+                );
+                return result;
+            } else {
+                // We just return this node.
+                obj = {};
+                storeAttributes(node, obj);
+                html = getContent(node);
+                if (html != null){
+                    obj.html = html;
                 }
-            );
-            return result;
+                return obj;
+            }
         }
 
         function getContent(node){
-            // Return the contents for a node... This may be a string or an object (for children) or null.
-            if (node.children().length == 0){
-                return node.innherHTML();
+            // Return the contents for a node... This may be a string or 1 or many children.
+            children = node.children();
+            if (children.length == 0){
+                return node.innerHTML();
             } else {
-                return {getChildNodes(node)};
+                return getChildNodes(node);
             }
-
         }
 
         function storeAttributes(node, storage){

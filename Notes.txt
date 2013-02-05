@@ -12,7 +12,7 @@
     IMPLEMENTATION:
 ======================
 * For each DOM child node we need to extract information that JQuery.dForm can use to rebuild.
-    * This information is put into the html: {...} secion of the JSON.
+    * This information is put into attributes and also content (including child nodes) in the the html: {...} section of the JSON.
     * Each node is its own object in the JSON "{...}"
     * Pretty much everything can be done so we must have default cases for things to fall through into.
 
