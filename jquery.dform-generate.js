@@ -22,8 +22,7 @@
         // Crockford json2.js prototypes over JSON.stringify!
 
         function getChildNodes(node){
-            // A node may multiple children, so we will return an array of child nodes.
-            // Else we return a single child node.
+            // If there is multiple children an array will be returned, else just 1 object.
             children = $([]);
             $(node).children().each(function(){
                 if (nodeseen.indexOf(this) == -1){
@@ -37,26 +36,19 @@
             if  (children.length > 0){
                 result = [];
                 children.each(function(){
-                    obj = {};
-                    // Get attributes for section. These are k:v pairs which are pushed onto the section.
-                    storeAttributes(this, obj);
-                    // Get content (which may contain child nodes) which is stored in the html attribute of the section.
-                    html = getContent(this);
-                    if (html != null){ // There is not always a html attribute.
-                        obj.html = html;
-                    }
-                    result.push(obj);
+                    child = {};
+                    // Get attributes for section. These are k:v pair attributes.
+                    storeAttributes(this, child);
+                    // Get content (which may contain child nodes) to store in the html attribute.
+                    child.html = getContent(this); // JSON.stringify should ignore undefined values.
+                    result.push(child);
                 });
                 return result;
             } else {
-                // We just return this node.
-                obj = {};
-                storeAttributes(node, obj);
-                html = getContent(node);
-                if (html != null){
-                    obj.html = html;
-                }
-                return obj;
+                nodeobj = {};
+                storeAttributes(node, nodeobj);
+                nodeobj.html = getContent(node);
+                return nodeobj;
             }
         }
 
