@@ -72,7 +72,7 @@
             // All elements have a tagName, but not all have a type.
             switch(tag){
                 case "label":
-                    storage.type = type;
+                    storage.type = "label";
                     storage.id = node.id;
                     storage.name = $(node).attr("for");
                     break;
@@ -112,6 +112,7 @@
                     storage.href = node.href;
                     storage.id = node.id;
                 default:
+                console.log("Un-handled tag: " + tag + " with type: " + type);
             }
             return;
         } // End storeAttributes

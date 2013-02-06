@@ -9,20 +9,20 @@
         <script src="https://raw.github.com/daffl/jquery.dform/master/dist/jquery.dform-1.0.1.js"></script>
         <h2>HTML Version:</h2>
         <div id="form1" style="border: 1px solid #CCC; padding: 5px">
-            <form id="form" name="theform">
-                First name: <input type="text" name="firstname" value="test stuff"><br />
-                <div id="thediv">
-                    <p id="child">Child 1</p>
-                    <p id="child2">child 2</p>
-                </div>
-                Last name: <input type="text" name="lastname" value="test last name stuff"><br />
+            <form id="form" name="form" action="mailto:youremail@email.com" method="post">
+               <label for="checkbox">Check Me:</label><input name="checkbox" type="checkbox" /><br />
+               <label for="text1">Name:</label> <input name="text1" type="text" /><br />
+               <label for="radio1">Yes:</label> <input name="radio1" type="radio" /><label for="label2">No:</label><input type="radio" name="label2"/><br />
+               <input type="submit" value="SUBMIT" /> 
+               <input type="reset" value="RESET" />
             </form>
         </div>
         <br />
-        <h2>dFormGenerate version:</h2>
+        <h2>dFormGenerate (HTML --> JSON) then dForm (JSON --> HTML) version:</h2>
         <div id="form2" style="border: 1px solid #CCC; padding: 5px;"></div>
         <script type="text/javascript">
             $(document).ready(function(){
+                //console.log($("#form").dFormGenerate());
                 var form = JSON.parse($("#form").dFormGenerate());
                 $("#form2").dform(form);
             });
