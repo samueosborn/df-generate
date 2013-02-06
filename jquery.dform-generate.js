@@ -5,10 +5,10 @@
         // or if your designer crafts forms in some IDE (terrible!) which you have to translate.
 
         var form = this; // As documentation says, no need to wrap: $(this).
-        var nodeseen = []; // Keep track of the nodes we have already processed.
+        var nodeseen = []; // Keep track of the already processed nodes. Avoids cyclic refences.
 
         // We should not proceed if we're not handed a Form object.
-        if (form.prop("tagName").toLowerCase() != "form"){ // I screwed around with .attr() for ages.
+        if (form.prop("tagName").toLowerCase() != "form"){
             console.log("Not a form!");
             return null; // Does returning null make sense? I'll find out.
         }
@@ -22,7 +22,9 @@
         // Crockford json2.js prototypes over JSON.stringify!
 
         function getChildNodes(node){
-            // If there is multiple children an array will be returned, else just 1 object.
+            // If there are multiple children, an array of objects will be returned, else just 1.
+            console.log("getChildNodes: " + node.id);
+            
             children = $([]);
             $(node).children().each(function(){
                 if (nodeseen.indexOf(this) == -1){
@@ -30,22 +32,20 @@
                 }
             });
 
-            console.log("nodeseen:");
-            console.log(nodeseen);
-
-            if  (children.length > 0){
+            if  (children.length > 1){ // Was 0, if behavior strange look at this.
+                // Return an array of children.
                 result = [];
                 children.each(function(){
                     child = {};
                     // Get attributes for section. These are k:v pair attributes.
                     storeAttributes(this, child);
-                    // Get content (which may contain child nodes) to store in the html attribute.
+                    // Get content (which may contain child nodes).
                     child.html = getContent(this); // JSON.stringify should ignore undefined values.
-                    console.log(child.html);
                     result.push(child);
                 });
                 return result;
             } else {
+                // Return a single node, which may have a single child under the html attribute.
                 nodeobj = {};
                 storeAttributes(node, nodeobj);
                 nodeobj.html = getContent(node);
@@ -54,19 +54,15 @@
         }
 
         function getContent(node){
-            // Return the contents for a node... This may be a string or 1 or many children.
-            console.log(node);
+            // Returns the contents for a node... This may be a string or child(ren).
             children = $(node).children();
-            console.log("getContent children: " + children.length);
+            console.log("getContent children: [" + node.id + "] " + children.length);
             if (children.length == 0){
-                var innerhtml = node.innerHTML;
-                if (innerhtml == null){
-                    return node.value;
-                } else {
-                    return innerhtml;
-                }
+                return node.innerHTML;
             } else {
-                return getChildNodes(node);
+                var res = getChildNodes(node);
+                console.log("getContent recursed into: [" + node.id + "] " + JSON.stringify(res));
+                return res;
             }
         }
 
@@ -74,11 +70,10 @@
             // Store attributes of a node in the storage object.
 
             nodeseen.push(node);
+            console.log("Seen: [" + nodeseen.length + "] " +node);
 
             var tag = $(node).prop("tagName").toLowerCase();
-            console.log("tag:" + tag);
             var type = node.type;
-            console.log("type: " + type);
 
             // All elements have a tagName, but not all have a type.
             switch(tag){
@@ -95,10 +90,14 @@
                     storage.id = node.id;
                     break;
 
-                case "input": // Note: we output "text" (a type attribute of HTMLInputElement), though "input" works and is equally valid?
+                case "input": 
+                    // Note: we output "text" (a type attribute of HTMLInputElement), though "input" 
+                    // works and is equally valid?
                     console.log("tag: input");
                     storage.type = type;
                     storage.id = node.id;
+                    storage.name = node.name;
+                    storage.value = node.value;
                     break;
 
                 case "br":
@@ -120,9 +119,15 @@
                     storage.id = node.id;
                     storage.name = node.name;
                     break;
+
+                case "a":
+                    console.log("tag: a");
+                    storage.href = node.href;
+                    storage.id = node.id;
                 default:
-                    console.log("Unknown element tag: " + tag);
+                    console.log("Unknown element tag: " + tag + " with type: "  + type);
             }
+            return;
         } // End storeAttributes
         
     }; // End function object
