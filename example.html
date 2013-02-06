@@ -1,64 +1,31 @@
 <html>
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8"/>
     </head>
     <body>
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> 
-        <!-- <script src="https://raw.github.com/douglascrockford/JSON-js/master/json2.js"></script> -->
-    	<script type="text/javascript">
-        jQuery.extend({
-            stringify  : function stringify(obj) {         
-                if ("JSON" in window) {
-                    return JSON.stringify(obj);
-                }
-
-                var t = typeof (obj);
-                if (t != "object" || obj === null) {
-                    // simple data type
-                     if (t == "string") obj = '"' + obj + '"';
-                        return String(obj);
-                } else {
-                    // recurse array or object
-                    var n, v, json = [], arr = (obj && obj.constructor == Array);
-
-                    for (n in obj) {
-                        v = obj[n];
-                        t = typeof(v);
-                        if (obj.hasOwnProperty(n)) {
-                            if (t == "string") {
-                                v = '"' + v + '"';
-                            } else if (t == "object" && v !== null){
-                                v = jQuery.stringify(v);
-                            }
-                            json.push((arr ? "" : '"' + n + '":') + String(v));
-                        }
-                    }
-                    return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-                   }
-                }
-            });
-
-
-    		var myJSONObject = {};
-            myJSONObject.a = "first";
-            myJSONObject.b = "second";
-            myJSONObject.c = ["third", "fourth"];
-            myJSONObject.c.push("fifth");
-            myJSONObject.d = {e:["sixth", "seventh"], f: "eighth"};
-
-	        //console.log($.stringify(myJSONObject));
-    	</script>
+        <script src="https://raw.github.com/douglascrockford/JSON-js/master/json2.js"></script>
         <script src="jquery.dform-generate.js" type="text/javascript"></script>  
-        <form id="form" name="theform">
-            First name: <input type="text" name="firstname" value="test stuff"><br />
-            <div id="thediv">
-                <p id="child">Child 1</p>
-                <p id="child2">child 2</p>
-            </div>
-            Last name: <input type="text" name="lastname" value="test last name stuff"><br />
-        </form>
+        <script src="https://raw.github.com/daffl/jquery.dform/master/dist/jquery.dform-1.0.1.js"></script>
+        <h2>HTML Version:</h2>
+        <div id="form1" style="border: 1px solid #CCC; padding: 5px">
+            <form id="form" name="theform">
+                First name: <input type="text" name="firstname" value="test stuff"><br />
+                <div id="thediv">
+                    <p id="child">Child 1</p>
+                    <p id="child2">child 2</p>
+                </div>
+                Last name: <input type="text" name="lastname" value="test last name stuff"><br />
+            </form>
+        </div>
+        <br />
+        <h2>dFormGenerate version:</h2>
+        <div id="form2" style="border: 1px solid #CCC; padding: 5px;"></div>
         <script type="text/javascript">
-            console.log($("#form").dFormGenerate());
+            $(document).ready(function(){
+                var form = JSON.parse($("#form").dFormGenerate());
+                $("#form2").dform(form);
+            });
         </script>
     <body>
 </html>

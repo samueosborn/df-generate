@@ -1,6 +1,6 @@
 (function ( $ ){
     $.fn.dFormGenerate = function(){
-        // This function takes a HTML Form object and generates JSON compatible with the
+        // This function takes a HTML Form object and generates a JSON string compatible with the
         // jQuery.dForm plugin. This plugin is useful paired with an automatic form builder tool
         // or if your designer crafts forms in some IDE (terrible!) which you have to translate.
 
@@ -16,8 +16,7 @@
         storeAttributes(form[0], formobj);
         formobj.html = getContent(form[0]);
 
-        return JSON.stringify(formobj); //Just use JSON.stringify until things are working well. 
-        // Crockford json2.js prototypes over JSON.stringify!
+        return JSON.stringify(formobj);
 
         function getChildNodes(node){
             // If there are multiple children, an array of objects will be returned, else just 1.
@@ -56,7 +55,8 @@
             // Returns the contents for a node... This may be a string or child(ren).
             var children = $(node).children();
             if (children.length == 0){
-                return (node.innerHTML != "") ? node.innerHTML : undefined; // JSON.stringify should ignore undefined values.
+                // JSON.stringify should ignore undefined values.
+                return (node.innerHTML != "") ? node.innerHTML : undefined; 
             } else {
                 return getChildNodes(node);
             }
