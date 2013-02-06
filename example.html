@@ -52,13 +52,13 @@
         <form id="form" name="theform">
             First name: <input type="text" name="firstname" value="test stuff"><br />
             <div id="thediv">
-                <p name="child">Child 1</p>
-                <p name="child2">child 2</p>
+                <p id="child">Child 1</p>
+                <p id="child2">child 2</p>
             </div>
-            Last name: <input type="text" name="lastname"><br />
+            Last name: <input type="text" name="lastname" value="test last name stuff"><br />
         </form>
         <script type="text/javascript">
-            $("#form").dFormGenerate();
+            console.log($("#form").dFormGenerate());
         </script>
     <body>
 </html>
