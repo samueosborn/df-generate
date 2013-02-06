@@ -58,8 +58,7 @@
             if (children.length == 0){
                 return (node.innerHTML != "") ? node.innerHTML : undefined; // JSON.stringify should ignore undefined values.
             } else {
-                var res = getChildNodes(node);
-                return res;
+                return getChildNodes(node);
             }
         }
 
