@@ -73,46 +73,62 @@
             switch(tag){
                 case "label":
                     storage.type = "label";
-                    storage.id = node.id;
-                    storage.name = $(node).attr("for");
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.name = node.for;
+                    storage.class = node.class;
                     break;
 
                 case "p":
                     storage.type = "p";
-                    storage.id = node.id;
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.class = node.class;
                     break;
 
                 case "input": 
                     // Note: we output "text" (a type attribute of HTMLInputElement), though "input" 
                     // works and is equally valid?
                     storage.type = type;
-                    storage.id = node.id;
-                    storage.name = node.name;
-                    storage.value = node.value;
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.name = (node.name != "") ? node.name : undefined;
+                    storage.value = (node.value != "") ? node.value : undefined;
+                    storage.class = node.class;
                     break;
 
                 case "br":
                     storage.type = "br";
+                    storage.class = node.class;
                     break;
 
                 case "div":
-                    storage.type = "div";
-                    storage.id = node.id;
-                    storage.name = node.name;
+                    storage.type = "container";
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.name = (node.name != "") ? node.name : undefined;
+                    storage.class = node.class;
                     break;
 
                 case "form":
                     storage.action = node.action;
                     storage.method = node.method;
-                    storage.id = node.id;
-                    storage.name = node.name;
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.name = (node.name != "") ? node.name : undefined;
+                    storage.class = node.class;
                     break;
 
                 case "a":
                     storage.href = node.href;
-                    storage.id = node.id;
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.class = node.class;
+                    break;
+
+                case "":
+                    storage.src = node.src;
+                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+                    storage.alt = node.alt;
+                    storage.class = node.class;
+                    break;
                 default:
-                console.log("Un-handled tag: " + tag + " with type: " + type);
+                    console.log("Un-handled tag: " + tag + " with type: " + type);
+                    break;
             }
             return;
         } // End storeAttributes
