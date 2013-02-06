@@ -17,7 +17,7 @@
         storeAttributes(form[0], formobj);
         formobj.html = getContent(form[0]);
 
-        console.log(formobj);
+        console.log(JSON.stringify(formobj));
         return JSON.stringify(formobj); //Just use JSON.stringify until things are working well. 
         // Crockford json2.js prototypes over JSON.stringify!
 
@@ -41,6 +41,7 @@
                     storeAttributes(this, child);
                     // Get content (which may contain child nodes) to store in the html attribute.
                     child.html = getContent(this); // JSON.stringify should ignore undefined values.
+                    console.log(child.html);
                     result.push(child);
                 });
                 return result;
@@ -56,8 +57,14 @@
             // Return the contents for a node... This may be a string or 1 or many children.
             console.log(node);
             children = $(node).children();
+            console.log("getContent children: " + children.length);
             if (children.length == 0){
-                return node.innerHTML;
+                var innerhtml = node.innerHTML;
+                if (innerhtml == null){
+                    return node.value;
+                } else {
+                    return innerhtml;
+                }
             } else {
                 return getChildNodes(node);
             }
@@ -77,28 +84,41 @@
             switch(tag){
                 case "label":
                     console.log("tag: label");
-                    // Return the properties for this node.
+                    storage.type = type;
+                    storage.id = node.id;
+                    storage.name = $(node).attr("for");
                     break;
 
                 case "p":
                     console.log("tag: p");
+                    storage.type = "p";
+                    storage.id = node.id;
                     break;
 
                 case "input": // Note: we output "text" (a type attribute of HTMLInputElement), though "input" works and is equally valid?
                     console.log("tag: input");
+                    storage.type = type;
+                    storage.id = node.id;
                     break;
 
                 case "br":
                     console.log("tag: br");
+                    storage.type = "br";
                     break;
 
                 case "div":
                     console.log("tag: div");
+                    storage.type = "div";
+                    storage.id = node.id;
+                    storage.name = node.name;
                     break;
 
                 case "form":
                     console.log("tag: form");
-                    return {"id": node.id, "name": node.name,};
+                    storage.action = node.action;
+                    storage.method = node.method;
+                    storage.id = node.id;
+                    storage.name = node.name;
                     break;
                 default:
                     console.log("Unknown element tag: " + tag);
