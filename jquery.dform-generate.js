@@ -115,12 +115,14 @@
                     break;
 
                 case "a":
+                    storage.type = "a";
                     storage.href = node.href;
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.class = node.class;
                     break;
 
-                case "":
+                case "img":
+                    storage.type = "img";
                     storage.src = node.src;
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.alt = node.alt;
