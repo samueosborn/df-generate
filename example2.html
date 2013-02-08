@@ -110,15 +110,15 @@
                             $('<span class="handle draggable"><input type="text" />...</span>')
                                 .appendTo("#theform")
                                 .draggable({revert: true})
-                                .prev().attr("id","input"+(inputcnt++))
-                                .prev("label").attr("for", "input"+inputcnt)
+                                .attr("id", "input"+(inputcnt++))
+                                //.prev("label").prop("for","input"+(inputcnt))
                                 .on("mousedown", function(){
                                     activecomp = this;
                                 });
                         }
 
                         if ($(activecomp).prop("id") == "label"){
-                            $('<label class="draggable"></label>').appendTo("#theform")
+                            $('<label class="draggable" for="input0"></label>').appendTo("#theform")
                                 .draggable({revert: true})
                                 .attr("id","label"+(labelcnt++))
                                 .html(prompt("Enter text for label..."))
@@ -163,6 +163,7 @@
 
 
             // Generate JSON from the form, restore it to an empty form.
+            console.log($("#theform").dFormGenerate());
             var form = JSON.parse($("#theform").dFormGenerate());
             $("#form2").dform(form);
 
