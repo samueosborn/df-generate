@@ -75,13 +75,13 @@
                     storage.type = "label";
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.for = $(node).prop("for");
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "p":
                     storage.type = "p";
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "input": 
@@ -91,19 +91,19 @@
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.name = (node.name != "") ? node.name : undefined;
                     storage.value = (node.value != "") ? node.value : undefined;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "br":
                     storage.type = "br";
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "div":
                     storage.type = "container";
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.name = (node.name != "") ? node.name : undefined;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "form":
@@ -111,14 +111,14 @@
                     storage.method = node.method;
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.name = (node.name != "") ? node.name : undefined;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "a":
                     storage.type = "a";
                     storage.href = node.href;
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
 
                 case "img":
@@ -126,7 +126,7 @@
                     storage.src = node.src;
                     storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
                     storage.alt = node.alt;
-                    storage.class = $(node).prop("class");
+                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
                     break;
                 default:
                     console.log("Un-handled tag: " + tag + " with type: " + type);
