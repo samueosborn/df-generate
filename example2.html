@@ -151,6 +151,7 @@
 
         function submit(){
 
+            var formcopy = $("#theform").children().clone();
             $(".newline").replaceWith("<br />");
             $(".handle").each(function(){
                 $(this).children().insertBefore(this);
@@ -160,6 +161,11 @@
 
             var form = JSON.parse($("#theform").dFormGenerate());
             $("#form2").dform(form);
+
+            $("#theform").children().remove();
+            $("#theform").html(formcopy);
+
+            $(".draggable").draggable({revert: true });
         }
         </script>
     <body>
