@@ -82,12 +82,16 @@
                 <div class="component draggable" id="newline">⏎</div>
             </div>
             <div id="formbox">
-                <form action="" id="theform">
+                <form id="theform">
                 </form> 
                 <div id="droparea"><p>Drop Components Here!</p></div>
+                <input type="button" onclick="submit()" value="Submit" />
             </div>
             <div id="deletearea">Delete</div>
         </div>
+
+        <h1>Result:</h1>
+        <div id="form2"></div>
 
         <script type="text/javascript">
             $(function(){
@@ -144,6 +148,19 @@
                     }
                 });
             });
+
+        function submit(){
+
+            $(".newline").replaceWith("<br />");
+            $(".handle").each(function(){
+                $(this).children().insertBefore(this);
+                $(this).remove();
+            });
+
+
+            var form = JSON.parse($("#theform").dFormGenerate());
+            $("#form2").dform(form);
+        }
         </script>
     <body>
 </html>
