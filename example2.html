@@ -151,7 +151,10 @@
 
         function submit(){
 
+            // Take a copy of the form
             var formcopy = $("#theform").children().clone();
+
+            // Strip out the stuff we don't want to go through the generator.
             $(".newline").replaceWith("<br />");
             $(".handle").each(function(){
                 $(this).children().insertBefore(this);
@@ -159,12 +162,15 @@
             });
 
 
+            // Generate JSON from the form, restore it to an empty form.
             var form = JSON.parse($("#theform").dFormGenerate());
             $("#form2").dform(form);
 
+            // Clean out the form and restore the original children.
             $("#theform").children().remove();
             $("#theform").html(formcopy);
 
+            // Re-attach drag handlers.
             $(".draggable").draggable({revert: true });
         }
         </script>
