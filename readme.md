@@ -12,6 +12,7 @@ This generates a JSON string ready to use with a JSON parser of your choice.
 So for example, to read one form from your HTML and then display it using jQuery.dForm:
 
 > var form = JSON.parse($("#form").dFormGenerate());
+
 > $("#form2").dform(form);
 
 All newish browsers (newer than Internet Explorer 7) have the native JSON.parse and JSON.stringify methods built in. If you need to support older browsers then I recommend using the [JSON parser and stringifier implementation by Douglas Crockford (the guy who made JSON)](https://github.com/douglascrockford/JSON-js) which will add the JSON object to the JavaScript namespace.
