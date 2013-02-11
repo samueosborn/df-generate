@@ -70,69 +70,23 @@
             var type = node.type;
 
             // All elements have a tagName, but not all have a type.
-            switch(tag){
-                case "label":
-                    storage.type = "label";
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.for = $(node).prop("for");
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "p":
-                    storage.type = "p";
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "input": 
-                    // Note: we output "text" (a type attribute of HTMLInputElement), though "input" 
-                    // works and is equally valid?
-                    storage.type = type;
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.name = (node.name != "") ? node.name : undefined;
-                    storage.value = (node.value != "") ? node.value : undefined;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "br":
-                    storage.type = "br";
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "div":
-                    storage.type = "container";
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.name = (node.name != "") ? node.name : undefined;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "form":
-                    storage.action = node.action;
-                    storage.method = node.method;
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.name = (node.name != "") ? node.name : undefined;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "a":
-                    storage.type = "a";
-                    storage.href = node.href;
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-
-                case "img":
-                    storage.type = "img";
-                    storage.src = node.src;
-                    storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
-                    storage.alt = node.alt;
-                    storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
-                    break;
-                default:
-                    console.log("Un-handled tag: " + tag + " with type: " + type);
-                    break;
+            // For everything that is not an Input type, use type=tagName.
+            // Note: A DIV can also be a "container" type.
+            if (tag == "input"){
+                storage.type = type;
+            } else {
+                storage.type = tag;
             }
-            return;
+            storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
+            storage.for = ($(node).prop("for") != "") ? $(node).prop("for") : undefined;
+            storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
+            storage.name = (node.name != "") ? node.name : undefined;
+            storage.value = (node.value != "") ? node.value : undefined;
+            storage.action = (node.action != "") ? node.action : undefined;
+            storage.method = (node.method != "") ? node.method : undefined;
+            storage.href = (node.href != "") ? node.href : undefined;
+            storage.src = (node.src != "") ? node.src : undefined;
+            storage.alt = (node.alt != "") ? node.alt : undefined;
         } // End storeAttributes
         
     }; // End function object

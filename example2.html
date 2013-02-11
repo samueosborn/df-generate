@@ -74,23 +74,27 @@
         </style>
     </head>
     <body>
+        <h1>dForm-generate works on dynamically built forms</h1>
         <div id="formbuilder">
+            <h2>Drag and Drop form builder:</h2>
             <div id="toolbox">
                 <p><b>Components</b></p>
-                <div class="component draggable" id="input">Input</div>
                 <div class="component draggable" id="label">Label</div>
+                <div class="component draggable" id="input">Input</div>
                 <div class="component draggable" id="newline">⏎</div>
             </div>
             <div id="formbox">
                 <form id="theform">
                 </form> 
-                <div id="droparea"><p>Drop Components Here!</p></div>
-                <input type="button" onclick="submit()" value="Submit" />
+                <div id="droparea"><p>Drop Components Here to Build!</p></div>
+                <div style="float: right; margin-top: 20px;">
+                    <center><input type="button" onclick="submit()" value="Submit" /></center>
+                </div>
             </div>
-            <div id="deletearea">Delete</div>
+            <div id="deletearea">Drag and Drop here to Delete</div>
         </div>
 
-        <h1>Result:</h1>
+        <h2>Result:</h2>
         <div id="form2"></div>
 
         <script type="text/javascript">

@@ -22,7 +22,8 @@
         <div id="form2" style="border: 1px solid #CCC; padding: 5px;"></div>
         <script type="text/javascript">
             $(document).ready(function(){
-                //console.log($("#form").dFormGenerate());
+                console.log("The JSON representation of the form is: ");
+                console.log($("#form").dFormGenerate());
                 var form = JSON.parse($("#form").dFormGenerate());
                 $("#form2").dform(form);
             });
