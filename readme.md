@@ -7,8 +7,10 @@ Useage
 Refer to example.html and example2.html
 Though typical useage will be: 
 > $("#MyForm").dFormGenerate()
+
 This generates a JSON string ready to use with a JSON parser of your choice.
 So for example, to read one form from your HTML and then display it using jQuery.dForm:
+
 > var form = JSON.parse($("#form").dFormGenerate());
 > $("#form2").dform(form);
 
