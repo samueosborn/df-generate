@@ -9,7 +9,8 @@
 
         // We should not proceed if we're not handed a Form object.
         if (form.prop("tagName").toLowerCase() != "form"){
-            return null; // Does returning null make sense? I'll find out.
+            console.log("The element handed to dFormGenerate was not a Form.");
+            return null; // Does returning null make sense?
         }
 
         var formobj = {};
@@ -41,7 +42,7 @@
                 });
                 return result;
             } else if (children.length == 1){
-                // Return a single node, which may have a single child under the html attribute.
+                // Return a single node. (Which itself may have children).
                 var nodeobj = {};
                 storeAttributes(node, nodeobj);
                 nodeobj.html = getContent(node);
@@ -77,6 +78,7 @@
             } else {
                 storage.type = tag;
             }
+
             storage.id = ($(node).prop("id") != "") ? $(node).prop("id") : undefined;
             storage.for = ($(node).prop("for") != "") ? $(node).prop("for") : undefined;
             storage.class = ($(node).prop("class") != "") ? $(node).prop("class") : undefined;
@@ -87,6 +89,8 @@
             storage.href = (node.href != "") ? node.href : undefined;
             storage.src = (node.src != "") ? node.src : undefined;
             storage.alt = (node.alt != "") ? node.alt : undefined;
+
+            return;
         } // End storeAttributes
         
     }; // End function object
