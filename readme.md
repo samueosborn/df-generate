@@ -20,3 +20,5 @@ All newish browsers (newer than Internet Explorer 7) have the native JSON.parse 
 Instead of JSON.parse you can use the eval() function in JavaScript - however only use this with JSON from a trusted source, for security reasons. A proper parser is safer.
 
 *Disclaimer*: I do not claim to be competent at JavaScript or jQuery. This code works for me, but may not work for you.
+
+**Patches welcome.**
